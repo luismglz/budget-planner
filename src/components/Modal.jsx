@@ -2,11 +2,16 @@ import React from "react";
 
 import CloseModalBtn from '../img/close.svg'
 
-const Modal = ({setModal}) => {
+const Modal = ({setModal, animateModal, setAnimateModal}) => {
 
 
   const hideModal = () => {
-    setModal(false)
+    
+    setAnimateModal(false)
+
+    setTimeout(() => {
+      setModal(false)
+    }, 500);
   }
 
 
@@ -18,6 +23,9 @@ const Modal = ({setModal}) => {
           alt="close modal"
           onClick={hideModal}/>
       </div>
+      <form className={`formulario ${animateModal ? "animar" : "cerrar"}`}>
+        <legend>New Expense</legend>
+      </form>
     </div>
   )
 }
