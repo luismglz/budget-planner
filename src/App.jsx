@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Header from './components/Header'
+import IconNewExpense from './img/new_expense.svg'
 
 function App() {
 
@@ -11,11 +12,19 @@ function App() {
   return (
     <div>
       <Header
-      budget = {budget}
-      setBudget = {setBudget}
-      isValidBudget = {isValidBudget}
-      setIsValidBudget = {setIsValidBudget}
+        budget={budget}
+        setBudget={setBudget}
+        isValidBudget={isValidBudget}
+        setIsValidBudget={setIsValidBudget}
       />
+      {isValidBudget && (
+        <div className='nuevo-gasto'>
+          <img
+            src={IconNewExpense}
+            alt="icon new expense" />
+        </div>
+      )}
+
     </div>
   )
 }
