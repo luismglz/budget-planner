@@ -1,9 +1,14 @@
 import React from "react";
+import { useState } from "react";
+import CloseModalBtn from '../img/close.svg';
+import Message from "./Message";
 
-import CloseModalBtn from '../img/close.svg'
+const Modal = ({setModal, animateModal, setAnimateModal, saveExpense}) => {
 
-const Modal = ({setModal, animateModal, setAnimateModal}) => {
-
+  const [message, setMessage] = useState('');
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState('');
+  const [category, setCategory] = useState('');
 
   const hideModal = () => {
     
@@ -12,6 +17,22 @@ const Modal = ({setModal, animateModal, setAnimateModal}) => {
     setTimeout(() => {
       setModal(false)
     }, 500);
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    if([name, amount, category].includes('')){
+      setMessage('All fields are required');
+
+      setTimeout(()=>{
+        setMessage('');
+      },3000)
+      
+      return;
+    }
+
+    saveExpense({name, amount, category});
   }
 
 
@@ -23,25 +44,36 @@ const Modal = ({setModal, animateModal, setAnimateModal}) => {
           alt="close modal"
           onClick={hideModal}/>
       </div>
-      <form className={`formulario ${animateModal ? "animar" : "cerrar"}`}>
+      <form
+      onSubmit={handleSubmit}
+       className={`formulario ${animateModal ? "animar" : "cerrar"}`}
+       >
         <legend>New Expense</legend>
+        {message && <Message type="error">{message}</Message>}
         <div className="campo">
           <label htmlFor="name">Expense name</label>
           <input
             id="name"
             type="text"
-            placeholder="Enter expense name"/>
+            placeholder="Enter expense name"
+            value={name}
+            onChange={e => setName(e.target.value)}/>
         </div>
         <div className="campo">
           <label htmlFor="amount">Amount</label>
           <input
             id="amount"
             type="number"
-            placeholder="Enter amount: e.g. 300" />
+            placeholder="Enter amount: e.g. 300" 
+            value={amount}
+            onChange={e => setAmount(Number(e.target.value))}/>
         </div>
         <div className="campo">
           <label htmlFor="category">Category</label>
-          <select id="category">
+          <select 
+          id="category"
+          value={category}
+          onChange={e => setCategory(e.target.value)}>
             <option value="" disabled selected>-- Select --</option>
             <option value="saving">Saving</option>
             <option value="food">Food</option>
