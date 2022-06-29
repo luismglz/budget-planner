@@ -24,6 +24,7 @@ function App() {
 
   const saveExpense = expense => {
     expense.id = generateID();
+    expense.date = Date.now();
     setExpenses([...expenses, expense]);
 
     setAnimateModal(false)
@@ -36,7 +37,7 @@ function App() {
 
 
   return (
-    <div>
+    <div className={modal ? 'fijar' : ''}>
       <Header
         budget={budget}
         setBudget={setBudget}
