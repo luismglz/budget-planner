@@ -9,8 +9,12 @@ const BudgetControl = ({budget, expenses}) => {
 
   useEffect(()=>{
     const totalSpent = expenses.reduce((accumulated, expense)=> expense.amount + accumulated, 0);
-    console.log(totalSpent);
+
+    const totalAvailable = budget - totalSpent;
+
+
     setSpentBudget(totalSpent);
+    setAvailable(totalAvailable);
   },[expenses])
 
 
