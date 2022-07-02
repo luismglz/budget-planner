@@ -1,4 +1,12 @@
 import React from 'react'
+import {
+  LeadingActions,
+  SwipeableList,
+  SwipeableListItem,
+  SwipeAction,
+  TrailingActions
+} from 'react-swipeable-list';
+import 'react-swipeable-list/dist/styles.css'
 import { dateFormat } from '../helpers';
 
 import ExpensesIcon from '../img/icon_expenses.svg'
@@ -23,9 +31,29 @@ export const Expense = ({expense}) => {
 
   const {category, name, amount, id, date} = expense;
 
+  const leadingActions = () => (
+    <LeadingActions>
+      <SwipeAction onClick={()=> console.log('edit')}>
+        Edit
+      </SwipeAction>
+    </LeadingActions>
+  )
+
+  const trailingActions = () => (
+    <TrailingActions>
+      <SwipeAction onClick={()=>{console.log('remove')}}>
+        Delete
+      </SwipeAction>
+    </TrailingActions>
+  )
+
 
 
   return (
+    <SwipeableList>
+      <SwipeableListItem
+          leadingActions={leadingActions()}
+          trailingActions={trailingActions()}>
     <div className='gasto sombra'>
       <div className='contenido-gasto'>
         <img 
@@ -44,6 +72,8 @@ export const Expense = ({expense}) => {
         ${amount}
       </p>
     </div>
+      </SwipeableListItem>
+    </SwipeableList>
   )
 }
 
