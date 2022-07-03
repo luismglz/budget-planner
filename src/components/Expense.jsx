@@ -27,7 +27,7 @@ const iconsDictionary = {
   subscriptions: SubscriptionsIcon
 }
 
-export const Expense = ({ expense, setEditExpense }) => {
+export const Expense = ({ expense, setEditExpense, deleteExpense }) => {
 
   const {category, name, amount, id, date} = expense;
 
@@ -41,7 +41,10 @@ export const Expense = ({ expense, setEditExpense }) => {
 
   const trailingActions = () => (
     <TrailingActions>
-      <SwipeAction onClick={()=>{console.log('remove')}}>
+      <SwipeAction 
+        onClick={()=>{deleteExpense(id)}}
+        destructive={true}
+      >
         Delete
       </SwipeAction>
     </TrailingActions>

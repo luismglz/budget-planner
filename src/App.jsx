@@ -34,6 +34,11 @@ function App() {
     }, 500);
   }
 
+  const deleteExpense = id => {
+    const updatedExpensesList = expenses.filter( expense => expense.id !== id);
+    setExpenses(updatedExpensesList);
+  }
+
 
   const saveExpense = expense => {
     if (expense.id) {
@@ -74,7 +79,9 @@ function App() {
         <main>
           <ExpensesList
             expenses={expenses}
-            setEditExpense={setEditExpense}/>
+            setEditExpense={setEditExpense}
+            deleteExpense={deleteExpense}
+            />
         </main>
         <div className='nuevo-gasto'>
           <img
