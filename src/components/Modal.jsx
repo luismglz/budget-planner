@@ -1,14 +1,37 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CloseModalBtn from '../img/close.svg';
 import Message from "./Message";
 
-const Modal = ({setModal, animateModal, setAnimateModal, saveExpense}) => {
+const Modal = ({
+  setModal, 
+  animateModal, 
+  setAnimateModal, 
+  saveExpense,
+  editExpense
+}) => {
 
   const [message, setMessage] = useState('');
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
+  const [date, setDate] = useState('');
+  const [id, setId] = useState('');
+
+  useEffect(()=>{
+    if (isUpdatingExpense(editExpense)) {
+      setName(editExpense.name);
+      setAmount(editExpense.amount);
+      setCategory(editExpense.category);
+      setDate(editExpense.date);
+      setId(editExpense.id);
+      
+    }
+  },[])
+
+  const isUpdatingExpense = (editExpense) =>{
+    return Object.keys(editExpense).length > 0 ? true : false;
+  }
 
   const hideModal = () => {
     
@@ -32,7 +55,7 @@ const Modal = ({setModal, animateModal, setAnimateModal, saveExpense}) => {
       return;
     }
 
-    saveExpense({name, amount, category});
+    saveExpense({name, amount, category, id, date});
   }
 
 
@@ -48,7 +71,7 @@ const Modal = ({setModal, animateModal, setAnimateModal, saveExpense}) => {
       onSubmit={handleSubmit}
        className={`formulario ${animateModal ? "animar" : "cerrar"}`}
        >
-        <legend>New Expense</legend>
+        <legend>{isUpdatingExpense(editExpense) ? "Edit Expense": "New Expense"}</legend>
         {message && <Message type="error">{message}</Message>}
         <div className="campo">
           <label htmlFor="name">Expense name</label>
@@ -74,7 +97,7 @@ const Modal = ({setModal, animateModal, setAnimateModal, saveExpense}) => {
           id="category"
           value={category}
           onChange={e => setCategory(e.target.value)}>
-            <option value="" disabled selected>-- Select --</option>
+            <option value="" disabled defaultValue={"-- Select --"}>-- Select --</option>
             <option value="saving">Saving</option>
             <option value="food">Food</option>
             <option value="miscellaneous">Miscellaneous</option>
@@ -85,7 +108,7 @@ const Modal = ({setModal, animateModal, setAnimateModal, saveExpense}) => {
         </div>
         <input
           type="submit"
-          value="Add Expense"/>
+          value={isUpdatingExpense(editExpense) ? "Update changes" : "Add Expense"}/>
       </form>
     </div>
   )
