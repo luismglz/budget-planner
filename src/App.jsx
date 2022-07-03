@@ -48,6 +48,7 @@ function App() {
       );
 
       setExpenses(updatedExpenses);
+      setEditExpense({});
     } else {
       //new expense
       expense.id = generateID();
@@ -99,6 +100,7 @@ function App() {
         setAnimateModal={setAnimateModal}
         saveExpense={saveExpense}
         editExpense={editExpense}
+        setEditExpense={setEditExpense}
         />
       }
 

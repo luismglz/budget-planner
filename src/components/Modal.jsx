@@ -8,7 +8,8 @@ const Modal = ({
   animateModal, 
   setAnimateModal, 
   saveExpense,
-  editExpense
+  editExpense,
+  setEditExpense
 }) => {
 
   const [message, setMessage] = useState('');
@@ -34,12 +35,15 @@ const Modal = ({
   }
 
   const hideModal = () => {
-    
-    setAnimateModal(false)
+
+    setAnimateModal(false);
+
+    setEditExpense({});
 
     setTimeout(() => {
       setModal(false)
     }, 500);
+
   }
 
   const handleSubmit = e => {
@@ -88,7 +92,7 @@ const Modal = ({
             id="amount"
             type="number"
             placeholder="Enter amount: e.g. 300" 
-            value={amount}
+            value={amount === 0 ? "" : amount}
             onChange={e => setAmount(Number(e.target.value))}/>
         </div>
         <div className="campo">
