@@ -11,7 +11,7 @@ return(
           value={filter}
           onChange={e => setFilter(e.target.value)}
         >
-          <option value="" disabled defaultValue={"-- Select --"}>-- Select --</option>
+          <option value="" defaultValue={""}>-- All categories --</option>
           <option value="saving">Saving</option>
           <option value="food">Food</option>
           <option value="miscellaneous">Miscellaneous</option>
