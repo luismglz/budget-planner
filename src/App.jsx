@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Header from './components/Header'
+import Filters from './components/Filters'
 import Modal from './components/Modal'
 import ExpensesList from './components/ExpensesList'
 import { generateID } from './helpers'
@@ -16,11 +17,13 @@ function App() {
   const [budget, setBudget] = useState(
     Number(localStorage.getItem('budget')) ?? 0
   );
-  
+
   const [isValidBudget, setIsValidBudget] = useState(false);
   const [modal, setModal] = useState(false);
   const [animateModal, setAnimateModal] = useState(false);
   const [editExpense, setEditExpense] = useState({});
+  const [filter, setFilter] = useState('');
+  const [filteredExpenses, setFilteredExpenses] = useState([]);
 
   useEffect(()=>{
     if(Object.keys(editExpense).length > 0){
@@ -39,13 +42,24 @@ function App() {
   },[budget])
 
 
+  //set expenses in localStorage
   useEffect(()=>{
     localStorage.setItem('expenses', JSON.stringify(expenses) ?? []);
   },[expenses])
 
+
+  //filter expenses
+  useEffect(()=>{
+    if(filter){
+      const filteredExpenses = expenses.filter( expense => expense.category === filter)
+      setFilteredExpenses(filteredExpenses);
+    }
+  },[filter])
+
+
+  //get budget from localStorage
   useEffect(()=>{
     const localStorageBudget = Number(localStorage.getItem('budget')) ?? 0;
-
     if(localStorageBudget > 0){
       setIsValidBudget(true);
     }
@@ -105,6 +119,10 @@ function App() {
       {isValidBudget && (
         <>
         <main>
+          <Filters
+            filter = {filter}
+            setFilter = {setFilter}
+          />
           <ExpensesList
             expenses={expenses}
             setEditExpense={setEditExpense}
