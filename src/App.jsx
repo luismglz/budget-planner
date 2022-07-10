@@ -7,10 +7,16 @@ import IconNewExpense from './img/new_expense.svg'
 
 function App() {
 
-  const [expenses, setExpenses] = useState([]);
+  const [expenses, setExpenses] = useState(
+    localStorage.getItem('expenses') 
+    ? JSON.parse(localStorage.getItem('expenses'))
+    : []
+  );
+
   const [budget, setBudget] = useState(
     Number(localStorage.getItem('budget')) ?? 0
   );
+  
   const [isValidBudget, setIsValidBudget] = useState(false);
   const [modal, setModal] = useState(false);
   const [animateModal, setAnimateModal] = useState(false);
@@ -27,9 +33,15 @@ function App() {
   }, [editExpense])
 
 
+  //set budget in localStorage
   useEffect(()=>{
     localStorage.setItem('budget', budget ?? 0)
   },[budget])
+
+
+  useEffect(()=>{
+    localStorage.setItem('expenses', JSON.stringify(expenses) ?? []);
+  },[expenses])
 
   useEffect(()=>{
     const localStorageBudget = Number(localStorage.getItem('budget')) ?? 0;
